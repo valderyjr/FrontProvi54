@@ -3,11 +3,15 @@ const divElemento = document.querySelector('.secao--resultados')
 const input = document.querySelector('#input-busca')
 const modalTitle = document.querySelector('.modal-title')
 const modalBody = document.querySelector('.modal-body')
+const secoesPrincipais = document.querySelector('main')
 
-
-btn.addEventListener('click', (e) => {
+btn.addEventListener('click', async (e) => {
+    // secoesPrincipais.forEach(secao => secao.style.display = 'none')
+    secoesPrincipais.style.display = 'none'
+    divElemento.innerHTML = ''
+    
     const nome = input.value
-    acessaApi(nome)
+    await acessaApi(nome)
 })
 
 async function acessaApi(nome) {
@@ -25,9 +29,19 @@ function trabalhaApi(data, nome) {
         return nomeProduto.includes(nome.toUpperCase()) ? produto : null
     })
 
-    criaCard(novoArray)
+    novoArray.length > 0 ? criaCard(novoArray) : criaTelaDeErro(nome)
 }
 
+function criaTelaDeErro(nome) {
+    const titulo = document.createElement('h2')
+    titulo.classList.add('titulo-erro')
+    if (nome == 'oisamym') {
+        titulo.textContent = 'bom dia linda me dá um beijinho'
+    } else {
+        titulo.textContent = 'Ops! Infelizmente não possuimos este produto.'
+    }
+    divElemento.appendChild(titulo)
+}
 
 function criaCard (arrayProdutos) {
     arrayProdutos.forEach(produto => {
