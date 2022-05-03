@@ -146,4 +146,12 @@ body, html {
     .link--item {
         padding: .5rem .725rem;
     }
+
+    .pesquisa--links {
+        padding: 0;
+    }
+
+    .pesquisa--links ul {
+        gap: 1rem;
+    }
 }
