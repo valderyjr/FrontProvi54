@@ -113,79 +113,39 @@ footer a:hover {
 
 @media screen and (max-width: 768px) {
     main {
-        height: 160vh;
-    }
-    .secao--principal {
-        flex-direction: column;
-    }
-    
-    .secao--lista__sobre, .secao--lista__parceiros {
-        text-align: left;
-        padding-left: 0;
-        gap: 20px;
-    }
-    
-    .secao--img {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .secao--titulo {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-    .secao--img, .secao--img .imagem {
-        width: 100vw;
-    }
-
-    .imagem {
-        max-width: 600px;
-    }
-
-    .secao--principal__mobile {
-        flex-direction: column-reverse;
-        margin-top: 3rem;
-    }
-
-    .secao--secundaria__mobile {
-        height: fit-content;
-    }
-
-    .secao--secundaria__mobile .secao--info  {
-        row-gap: 5rem;
-    }
-
-    .secao--img__mobile {
-        margin-top: 3rem;
-    }
-
-    .secao--lista__parceiros {
-        padding-left: .5rem;
         height: auto;
-    }
-
-    .secao--lista__parceiros li {
-        padding-right: 1.5rem;
-        padding-left: 0;
     }
 
     .secao--img__sumir {
         display: none;
     }
 
-}
-
-@media screen and (max-width: 500px) {
-    .secao--info, .secao--lista {
-        padding: 0;
+    .secao--principal {
+        box-sizing: border-box;
+        flex-direction: column;
+        margin-top: 0;
     }
 
+    .secao--principal__mobile {
+        flex-direction: column-reverse;
+        padding-top: 4rem;
+    }
+
+    .secao--img {
+        margin: 4rem 0;
+    }
+    
     .secao--lista {
-        padding-left: 2.275rem;
-        padding-right: 1rem;
-    }   
-    .secao--lista__parceiros {
-        padding-left: 1.5rem;
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .secao--info {
+        padding: 2rem;
+    }
+
+    .secao--lista__parceiros li {
+        padding-left: 0;
     }
 }
