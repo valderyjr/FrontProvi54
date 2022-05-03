@@ -8,7 +8,7 @@ main {
     align-items: center;
 }
 
-.secao--sobre, .secao--parceiro {
+.secao--principal {
     width: 100%;
     height: auto;
     max-width: 1028px;
@@ -113,7 +113,7 @@ footer {
     main {
         gap: 0%;
     }
-    .secao--sobre{
+    .secao--principal{
         flex-direction: column;
         justify-content: center;
         align-items: center;
