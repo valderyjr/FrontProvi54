@@ -1,0 +1,29 @@
+.body-eco {
+    background-color: #EAECDB;
+}
+
+.border-eco {
+    border-color: #A2B38B;
+}
+
+.div-eco {
+    display: flex;
+    align-items: center;
+}
+
+.ul-eco {
+    padding-left: 1.5rem;
+}
+.li-eco {
+    margin-bottom: .5rem;
+    list-style: none;
+    padding-left: .5rem;
+    height: auto;
+    font-size: 1rem;
+}
+
+.span-eco {
+    margin-bottom: .5rem;
+    content: url('../img/folha.png');
+    height: .675rem;
+}

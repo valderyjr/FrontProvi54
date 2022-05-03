@@ -42,11 +42,15 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
-    transition: 1s all ease;
+    transition: .5s all ease;
+    -moz-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
 }
 
 .card-img-top-eco:hover {
-    scale: 0.9;
+    -moz-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
 }
 
 .card-body-eco {
@@ -78,7 +82,7 @@
     height: 100%;
     font-size: .875rem;
 }
-.button-produto-eco {
+.button-produto-eco, .button-fechar-eco{
     box-sizing: border-box;
     width: fit-content;
     font-size: .825rem;
@@ -86,7 +90,19 @@
     padding: .75rem 1.5rem;
     color: #EAECDB;
     background-color: #384F08;
+    cursor: pointer;
     text-decoration: none;
+    border: none;
+}
+
+.button-fechar-eco {
+    color: #EAECDB;
+    background-color: #A2B38B;
+    transition: all .25s ease;
+}
+.button-fechar-eco:hover {
+    background-color: #83926e;    
+
 }
 
 .button-produto-eco:hover {
