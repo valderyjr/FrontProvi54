@@ -94,10 +94,6 @@ function escutadorModal (elemento, produto) {
 function populaModal(produto) {
     modalBody.innerHTML = ''
     const titulo = produto.nome
-    // const nomeEmpresa = produto.nomeEmpresa
-    // const descricao = produto.descricao
-    // const valor = produto.valor
-    // const etiquetas = produto.etiquetas
     const informacoes = [produto.nomeEmpresa, produto.descricao, produto.valor]
     const referencias = ['Empresa: ', 'Descrição: ', 'Valor: R$ ']
     modalTitle.textContent = titulo
@@ -115,30 +111,95 @@ function populaModal(produto) {
         div.appendChild(info)
         ul.appendChild(div)
     } 
+
+    const icons = obtemIcones(produto.etiquetas.split(','))
+    console.log(icons)
     modalBody.appendChild(ul)
-    // let arrayFilhos = []
-    // let filho = pai.childNodes
-    // for (let i = 0; i < 6; i++) {
-    //     arrayFilhos.push(filho[i])
-    // }
-
-    // const titulo = arrayFilhos[0]
-    // modalTitle.textContent = titulo.data
-    // arrayFilhos.splice(0, 1)
-
-    // arrayFilhos.forEach((filho, i) => {
-    //     if (filho.tagName == 'IMG') {
-    //         criaImagemModal(filho)
-    //         arrayFilhos.splice(0, 1)
-    //     }
-    // })
-    // criaInfoModal(filho[5])
+    modalBody.appendChild(icons)
 }
 
+function obtemIcones (etiquetas){
+    let icones = comparaEtiquetas(etiquetas)
+    let iconesNovos = icones.map((el, i) => {
+        if (!el) {
+            return icones.splice(i, 1)
+        } 
+        return [el]
+    })
+    console.log(icones)
+    console.log(iconesNovos)
+    const mensagens = obtemMensagens(icones)
+    const ul = document.createElement('ul')
+    ul.classList.add('ul-icons')
+    icones.forEach((el, i) => {
+        console.log(el)
+        const li = document.createElement('li')
+        li.classList.add('li-icons')
+        const img = document.createElement('img')
+        img.classList.add('img-icons')
+        img.src = `./assets/img/${el}`
+        const span = document.createElement('span')
+        span.classList.add('span-icons')
+        span.textContent = mensagens[i]
+        li.appendChild(img)
+        li.appendChild(span)
+        ul.appendChild(li)
+    })
 
-function criaImagemModal(elemento) {
-    const imgModal = document.createElement('img')
-    imgModal.src = elemento.src
-    imgModal.classList.add('img-modal')
-    modalBody.appendChild(imgModal)
+    return ul   
+}
+
+function comparaEtiquetas (array) {
+    console.log(array)
+    const imagens = ['animal.png', 'bio-degradavel.png', 'embalagem.png', 'sem-plastico.png', 'nacional.png', 'recycle.png', 'selo-verde.png']
+    const regBio = /biodegrad/gi // bio-degradavel.png
+    const regRecycle = /recicl/gi // recycle.png
+    const regAnimal = /anima/gi // animal.png
+    const regVeg = /vega?e?/gi // selo-verde.png
+    const regPlan = /plan/gi // selo-verde.png
+    const regNat = /natura/gi // selo-verde.png
+    const regPlas = /pla?á?sti/gi // sem-plastico.png
+    const regNaci = /naciona/gi // nacional.png
+    const arrayFinal = array.map(el => {
+        if (el.match(regRecycle)) {
+            return 'recycle.svg'
+        }
+        if (el.match(regBio)) {
+            return 'bio-degradavel.svg'
+        }
+        if (el.match(regAnimal)) {
+            return 'animal.svg'
+        }
+        if (el.match(regVeg) || el.match(regPlan) || el.match(regNat)) {
+            return 'selo-verde.svg'
+        }
+        if (el.match(regPlas)) {
+            return 'sem-plastico.svg'
+        }
+        if (el.match(regNaci)) {
+            return 'nacional.svg'
+        }
+        // return
+    })
+    return([... new Set(arrayFinal)])
+}
+
+function obtemMensagens(icones) {
+    return icones.map(el => {
+        switch (el) {
+            case 'recycle.svg':
+                return 'Este produto é reciclado'
+            case 'bio-degradavel.svg':
+                return 'Este produto é biodegradável'
+            case 'animal.svg':
+                return 'Este produto é de origem animal'
+            case 'selo-verde.svg':
+                return 'Este produto possui o selo verde'
+            case 'sem-plastico.svg':
+                return 'Este produto é livre de plásticos'
+            case 'nacional.svg':
+                return 'Este produto é de origem nacional.'
+        }
+    })
+
 }
