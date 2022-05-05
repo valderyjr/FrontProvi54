@@ -21,36 +21,39 @@
     text-align: center;
 }
 .card-eco {
-    border-radius: 5px;
+    border-radius: 4px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: 18rem;
-    height: 20rem;
+    height: 26rem;
     overflow: hidden;
-    border: 1px solid #384F08;
+    background-color: white;
+    box-shadow: 0px 5px 7px rgb(0, 0, 0, 0.25);
 }
 
 .card-img-eco {
     width: 100%;
-    height: 100%;
+    height: 60%;
     overflow: hidden;
-    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card-img-top-eco {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    transition: .5s all ease;
-    -moz-transition: all .5s ease;
-    -webkit-transition: all .5s ease;
+    object-fit: contain;
+    width: 80%;
+    height: 80%;
+    transition: .75s all ease;
+    -moz-transition: all .75s ease;
+    -webkit-transition: all .75s ease;
 }
 
 .card-img-top-eco:hover {
-    -moz-transform: scale(0.9);
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
+    -moz-transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+    transform: scale(1.25);
 }
 
 .card-body-eco {
@@ -63,8 +66,7 @@
     padding-top: .5rem;
     padding-bottom: .5rem;
     width: 100%;
-    height: 100%;
-    background-color: #EAECDB;
+    height: 40%;
     color: #384F08;
 }
 
