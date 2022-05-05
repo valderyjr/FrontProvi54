@@ -14,7 +14,6 @@ btn.addEventListener('click', async (e) => {
 })
 
 async function acessaApi(nome) {
-
      await fetch('https://backend54.herokuapp.com/produtos', {
         method: "GET"
     }).then(res => res.json()).then(data => trabalhaApi(data, nome))
@@ -28,57 +27,46 @@ function trabalhaApi(data, nome) {
         return nomeProduto.includes(nome.toUpperCase()) ? produto : null
     })
 
-    novoArray.length > 0 ? criaCard(novoArray) : criaTelaDeErro(nome)
+    novoArray.length > 0 ? criaCard(novoArray) : criaTelaDeErro()
 }
 
-function criaTelaDeErro(nome) {
-    const titulo = document.createElement('h2')
-    titulo.classList.add('titulo-erro')
-    if (nome == 'oisamym') {
-        titulo.textContent = 'bom dia linda me dá um beijinho'
-    } else {
-        titulo.textContent = 'Ops! Infelizmente não possuimos este produto.'
-    }
+function criaTelaDeErro() {
+    const titulo = criaElemento('h2', 'titulo-erro')
+    titulo.textContent = 'Ops! Infelizmente não possuimos este produto.'
     divElemento.appendChild(titulo)
 }
 
 function criaCard (arrayProdutos) {
     arrayProdutos.forEach(produto => {
-        const divPrincipal = document.createElement('div')
-        divPrincipal.classList.add('card-eco')
-        const divImagem = document.createElement('div')
-        divImagem.classList.add('card-img-eco')
-        const img = document.createElement('img')
-        img.src = produto.foto
-        img.classList.add('card-img-top-eco')
-        const divBody = document.createElement('div')
-        divBody.classList.add('card-body-eco')
-        const nomeProduto = document.createElement('h5')
-        nomeProduto.classList.add('card-title-eco')
-        nomeProduto.textContent = produto.nome
-        const etiquetasProduto = document.createElement('p')
-        etiquetasProduto.classList.add('card-text-eco')
-        etiquetasProduto.textContent = produto.etiquetas
-        const botaoProduto = document.createElement('a')
-        botaoProduto.classList.add( 'button-produto-eco')
-        botaoProduto.textContent = 'Ver mais'
-        botaoProduto.setAttribute('data-bs-toggle', 'modal')
-        botaoProduto.setAttribute('data-bs-target', '#exampleModal')
+        const divPrincipal = criaElemento('div', 'card-eco')
+
+        const divImagem = criaElemento('div', 'card-img-eco')
+        
+        const img = criaElemento('img', 'card-img-top-eco', produto.foto)
+        
+        const divBody = criaElemento('div', 'card-body-eco')
+
+        const nome = produto.nome.replace(/\(|\)/gi, "").split('')
+        const primeiraLetra = nome.splice(0,1)
+        const nomeProdutoView = primeiraLetra.toString().toUpperCase() + nome.join('')
+    
+        const nomeProduto = criaElemento('h5', 'card-title-eco', nomeProdutoView)
+
+        const descricaoProduto = criaElemento('p', 'card-text-eco', produto.descricao)
+        
+        const botaoProduto = criaElemento('a', 'button-produto-eco', 'Ver mais')
+            botaoProduto.classList.add('button-produto-eco__card')
+            botaoProduto.setAttribute('data-bs-toggle', 'modal')
+            botaoProduto.setAttribute('data-bs-target', '#exampleModal')
+
         escutadorModal(botaoProduto, produto)
-        //
+
         divImagem.appendChild(img)
         divPrincipal.appendChild(divImagem)
-        
-        //
 
-        divBody.appendChild(nomeProduto)
-        divBody.appendChild(etiquetasProduto)
-        divBody.appendChild(botaoProduto)
-
-        // 
+        divBody.append(nomeProduto, descricaoProduto, botaoProduto)
 
         divPrincipal.appendChild(divBody)
-        // divGrid.appendChild(divPrincipal)
         divElemento.appendChild(divPrincipal)
         
     })
@@ -97,52 +85,36 @@ function populaModal(produto) {
     const informacoes = [produto.nomeEmpresa, produto.descricao, produto.valor]
     const referencias = ['Empresa: ', 'Descrição: ', 'Valor: R$ ']
     modalTitle.textContent = titulo
-    const ul = document.createElement('ul')
-    ul.classList.add('ul-eco')
+    const ul = criaElemento('ul', 'ul-eco')
     for (let i = 0; i < informacoes.length; i++) {
-        const div = document.createElement('div')
-        div.classList.add('div-eco')
-        let span = document.createElement('span')
-        span.classList.add('span-eco')
-        let info = document.createElement('li')
-        info.classList.add('li-eco')
-        info.textContent = referencias[i] + informacoes[i]
-        div.appendChild(span)
-        div.appendChild(info)
+        const div = criaElemento('div', 'div-eco')
+        const span = criaElemento('span', 'span-eco')
+        const infoConteudo = referencias[i] + informacoes[i]
+        const info = criaElemento('li', 'li-eco', infoConteudo)
+
+        div.append(span, info)
+
         ul.appendChild(div)
     } 
 
     const icons = obtemIcones(produto.etiquetas.split(','))
-    console.log(icons)
-    modalBody.appendChild(ul)
-    modalBody.appendChild(icons)
+    modalBody.append(ul, icons)
 }
 
 function obtemIcones (etiquetas){
-    let icones = comparaEtiquetas(etiquetas)
-    let iconesNovos = icones.map((el, i) => {
-        if (!el) {
-            return icones.splice(i, 1)
-        } 
-        return [el]
-    })
-    console.log(icones)
-    console.log(iconesNovos)
-    const mensagens = obtemMensagens(icones)
-    const ul = document.createElement('ul')
-    ul.classList.add('ul-icons')
-    icones.forEach((el, i) => {
-        console.log(el)
-        const li = document.createElement('li')
-        li.classList.add('li-icons')
-        const img = document.createElement('img')
-        img.classList.add('img-icons')
-        img.src = `./assets/img/${el}`
-        const span = document.createElement('span')
-        span.classList.add('span-icons')
-        span.textContent = mensagens[i]
-        li.appendChild(img)
-        li.appendChild(span)
+    const icones = comparaEtiquetas(etiquetas)
+
+    const ul = criaElemento('ul', 'ul-icons')
+    
+    icones.forEach(objeto => {
+        const li = criaElemento('li', 'li-icons')
+      
+        const img = criaElemento('img', 'img-icons', objeto.imagem)
+        
+        const span = criaElemento('span', 'span-icons', objeto.texto)
+
+        li.append(img, span)
+
         ul.appendChild(li)
     })
 
@@ -150,56 +122,85 @@ function obtemIcones (etiquetas){
 }
 
 function comparaEtiquetas (array) {
-    console.log(array)
-    const imagens = ['animal.png', 'bio-degradavel.png', 'embalagem.png', 'sem-plastico.png', 'nacional.png', 'recycle.png', 'selo-verde.png']
-    const regBio = /biodegrad/gi // bio-degradavel.png
-    const regRecycle = /recicl/gi // recycle.png
-    const regAnimal = /anima/gi // animal.png
-    const regVeg = /vega?e?/gi // selo-verde.png
-    const regPlan = /plan/gi // selo-verde.png
-    const regNat = /natura/gi // selo-verde.png
-    const regPlas = /pla?á?sti/gi // sem-plastico.png
-    const regNaci = /naciona/gi // nacional.png
-    const arrayFinal = array.map(el => {
-        if (el.match(regRecycle)) {
-            return 'recycle.svg'
+    
+    const refIcones = [
+        {   
+            "nome": "animal",
+            "regex": /anima/gi,
+            "texto": 'Este produto é de origem animal',
+            "imagem": './assets/img/animal.svg'
+        },
+        {
+            "nome": "bio-degradavel",
+            "regex": /biodegrad/gi,
+            "texto": 'Este produto é bio-degradável',
+            "imagem": './assets/img/bio-degradavel.svg'
+        },
+        {
+            "nome": "sem-plastico",
+            "regex": /pla?á?sti/gi,
+            "texto": 'Este produto não contém plástico',
+            "imagem": './assets/img/sem-plastico.svg'
+        },
+        {
+            "nome": "recycle",
+            "regex": /recicl/gi,
+            "texto": 'Este produto é reciclado',
+            "imagem": './assets/img/recycle.svg'
+        },
+        {
+            "nome": "vegano",
+            "regex": /vega?e?/gi,
+            "texto": 'Este produto possui selo verde',
+            "imagem": './assets/img/selo-verde.svg'
+        }, 
+        {
+            "nome": "planta",
+            "regex": /plan/gi,
+            "texto": 'Este produto possui selo verde',
+            "imagem": './assets/img/selo-verde.svg'
+        },
+        {
+            "nome": "natural",
+            "regex": /natura/gi,
+            "texto": 'Este produto possui selo verde',
+            "imagem": './assets/img/selo-verde.svg'
+        },
+        {
+            "nome": "nacional",
+            "regex": /naciona/gi,
+            "texto": 'Este produto é nacional',
+            "imagem": './assets/img/nacional.svg'
         }
-        if (el.match(regBio)) {
-            return 'bio-degradavel.svg'
+        
+    ]
+
+    const arrayPopulado = array
+    for (let i = 0; i < refIcones.length; i++) {
+        if (arrayPopulado[i] == undefined) {
+            arrayPopulado.push('')
         }
-        if (el.match(regAnimal)) {
-            return 'animal.svg'
+    }
+
+    const arrayEtiquetas = []
+
+    for (let i in refIcones) {
+        const regex = refIcones[i].regex
+        for (let j = 0; j  < 8; j++) {
+            if (arrayPopulado[j].match(regex)) {
+                arrayEtiquetas.push(refIcones[i])
+            }
         }
-        if (el.match(regVeg) || el.match(regPlan) || el.match(regNat)) {
-            return 'selo-verde.svg'
-        }
-        if (el.match(regPlas)) {
-            return 'sem-plastico.svg'
-        }
-        if (el.match(regNaci)) {
-            return 'nacional.svg'
-        }
-        // return
-    })
-    return([... new Set(arrayFinal)])
+    }
+
+    return ([... new Set(arrayEtiquetas)])
 }
 
-function obtemMensagens(icones) {
-    return icones.map(el => {
-        switch (el) {
-            case 'recycle.svg':
-                return 'Este produto é reciclado'
-            case 'bio-degradavel.svg':
-                return 'Este produto é biodegradável'
-            case 'animal.svg':
-                return 'Este produto é de origem animal'
-            case 'selo-verde.svg':
-                return 'Este produto possui o selo verde'
-            case 'sem-plastico.svg':
-                return 'Este produto é livre de plásticos'
-            case 'nacional.svg':
-                return 'Este produto é de origem nacional.'
-        }
-    })
-
+function criaElemento(elemento, classe, conteudo) {
+    const el = document.createElement(elemento)
+    el.classList.add(classe)
+    if (conteudo) {
+        el.tagName == 'IMG' ? el.src = conteudo : el.textContent = conteudo
+    }
+    return el
 }

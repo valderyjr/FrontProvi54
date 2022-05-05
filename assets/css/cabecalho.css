@@ -81,7 +81,9 @@ body, html {
     background-size: 1rem;
     border: none;
 }
-
+.input--button:focus {
+    outline: 0;
+} 
 .pesquisa--links {
     min-width: 450px;
     width: 30%;
