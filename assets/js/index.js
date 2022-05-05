@@ -4,6 +4,15 @@ const input = document.querySelector('#input-busca')
 const modalTitle = document.querySelector('.modal-title')
 const modalBody = document.querySelector('.modal-body')
 const secoesPrincipais = document.querySelector('main')
+const btnTopo = document.querySelector('#button--subir')
+
+document.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        btnTopo.style.opacity = 1
+    } else {
+        btnTopo.style.opacity = 0
+    }
+})
 
 btn.addEventListener('click', async (e) => {
     secoesPrincipais.style.display = 'none'
